@@ -8,9 +8,9 @@ Students should extend this class with additional methods as part of their homew
 """
 
 import requests
+from pprint import pprint
 
 from models import Update
-
 
 class TelegramBot:
     """
@@ -57,11 +57,14 @@ class TelegramBot:
         """
         url = f"{self.base_url}/getUpdates"
         params = {"offset": self.last_update_id + 1, "timeout": 30}
-
+        response = requests.get(url, params=params)
+        data = response.json()
+        pprint(data)
+        updates=[]
         try:
             response = requests.get(url, params=params)
             data = response.json()
-
+           
             if data["ok"]:
                 updates = []
                 for update_data in data["result"]:
@@ -99,6 +102,7 @@ class TelegramBot:
         """
         url = f"{self.base_url}/sendMessage"
         data = {"chat_id": chat_id, "text": text}
+        pprint(data)
 
         try:
             response = requests.post(url, data=data)
@@ -131,11 +135,15 @@ class TelegramBot:
             Students should implement this method to make a POST request to
             f"{self.base_url}/sendDice" with chat_id and emoji parameters.
         """
-        # TODO: Implement dice sending
-        # 1. Create URL: f"{self.base_url}/sendDice"
-        # 2. Create data dict with chat_id and emoji
-        # 3. Make POST request and return response
-        pass
+        
+        r=requests.post(
+            self.base_url+"/sendDice",
+            params={
+                "chat_id":chat_id,
+                "emaji":emoji,
+            },
+        )
+        return r.json()
 
     def send_voice(self, chat_id, voice_file_id):
         """
@@ -156,11 +164,14 @@ class TelegramBot:
             Students should implement this method to make a POST request to
             f"{self.base_url}/sendVoice" with chat_id and voice parameters.
         """
-        # TODO: Implement voice echoing
-        # 1. Create URL: f"{self.base_url}/sendVoice"
-        # 2. Create data dict with chat_id and voice (using file_id)
-        # 3. Make POST request and return response
-        pass
+        r=requests.post(
+            self.base_url+"/senVoice",
+            params={
+                "chat_id":chat_id,
+                "voice":voice_file_id,
+            },
+        )
+        return r.json()
 
     def send_photo(self, chat_id, photo_file_id, caption=None):
         """
@@ -182,13 +193,15 @@ class TelegramBot:
             Students should implement this method to make a POST request to
             f"{self.base_url}/sendPhoto" with chat_id, photo, and optional caption.
         """
-        # TODO: Implement photo echoing
-        # 1. Create URL: f"{self.base_url}/sendPhoto"
-        # 2. Create data dict with chat_id and photo (using file_id)
-        # 3. Add caption to data if provided
-        # 4. Make POST request and return response
-        pass
-
+        r=requests.post(
+            self.base_url+"/sendPhoto",
+            params={
+                "chat_id":chat_id,
+                "photo":photo_file_id,
+                "caption":caption,
+            },
+        )
+        return r.json()
     def send_video(self, chat_id, video_file_id, caption=None):
         """
         Send a video by forwarding an existing video file.
@@ -209,38 +222,12 @@ class TelegramBot:
             Students should implement this method to make a POST request to
             f"{self.base_url}/sendVideo" with chat_id, video, and optional caption.
         """
-        # TODO: Implement video echoing
-        # 1. Create URL: f"{self.base_url}/sendVideo"
-        # 2. Create data dict with chat_id and video (using file_id)
-        # 3. Add caption to data if provided
-        # 4. Make POST request and return response
-        pass
-
-    def echo_message(self, message):
-        """
-        Echo back any type of message received from a user.
-
-        This is the main echo method that determines the message type and
-        calls the appropriate send method to echo it back.
-
-        Args:
-            message (Message): A Message object from models.py containing
-                             the message to echo back
-
-        Returns:
-            dict or None: The response from the appropriate send method
-
-        Note:
-            Students should implement this method to:
-            1. Check message type (text, voice, photo, video, dice)
-            2. Call the appropriate echo method
-            3. Handle unknown message types gracefully
-        """
-        # TODO: Implement message echoing logic
-        # 1. Check if message.text exists -> call send_message()
-        # 2. Check if message.voice exists -> call send_voice() with voice.file_id
-        # 3. Check if message.photo exists -> call send_photo() with largest photo's file_id
-        # 4. Check if message.video exists -> call send_video() with video.file_id
-        # 5. Check if message.dice exists -> call send_dice() with dice.emoji
-        # 6. For unknown types, send a default message
-        pass
+        r=requests.post(
+            self.base_url+"/sendVedio",
+            params={
+                "chat_id":chat_id,
+                "video":video_file_id,
+                "caption":caption,
+            },
+        )
+        return r.json()
