@@ -57,10 +57,7 @@ class TelegramBot:
         """
         url = f"{self.base_url}/getUpdates"
         params = {"offset": self.last_update_id + 1, "timeout": 30}
-        response = requests.get(url, params=params)
-        data = response.json()
-        pprint(data)
-        updates=[]
+
         try:
             response = requests.get(url, params=params)
             data = response.json()
@@ -140,7 +137,7 @@ class TelegramBot:
             self.base_url+"/sendDice",
             params={
                 "chat_id":chat_id,
-                "emaji":emoji,
+                "emoji":emoji,
             },
         )
         return r.json()
@@ -165,7 +162,7 @@ class TelegramBot:
             f"{self.base_url}/sendVoice" with chat_id and voice parameters.
         """
         r=requests.post(
-            self.base_url+"/senVoice",
+            self.base_url+"/sendVoice",
             params={
                 "chat_id":chat_id,
                 "voice":voice_file_id,
@@ -223,7 +220,7 @@ class TelegramBot:
             f"{self.base_url}/sendVideo" with chat_id, video, and optional caption.
         """
         r=requests.post(
-            self.base_url+"/sendVedio",
+            self.base_url+"/sendVideo",
             params={
                 "chat_id":chat_id,
                 "video":video_file_id,
