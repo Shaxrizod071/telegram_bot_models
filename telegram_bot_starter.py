@@ -4,7 +4,7 @@ import time
 # Main bot loop
 def main():
     # Replace with your bot token from @BotFather
-    BOT_TOKEN = "7703211959:AAE9VuUt9v-jh-UeXdAlea707UosfDYmBnw"
+    BOT_TOKEN = "7703211959:AAEmP0t5Iv_mLWCzf9yNNG2eFrYSCajP9l4"
     bot = TelegramBot(BOT_TOKEN)
     
     print("Bot started. Send messages to test...")
@@ -31,32 +31,24 @@ def main():
                         update.message.chat.id,
                         update.message.voice.file_id
                     )
-                else:
-                    return None
                 if update.message.photo:
                     bot.send_photo(
                         update.message.chat.id,
                         update.message.photo.file_id
                     )
-                else:
-                    return None
                 if update.message.video:
                     bot.send_video(
                         update.message.chat.id,
                         update.message.video.file_id
                     )
-                else:
-                    return None
                 if update.message.dice:
                     bot.send_dice(
                         update.message.chat.id,
                         update.message.dice.emoji
                     )
-                else:
-                    return None
 
         
-        time.sleep(4)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()
